@@ -4,30 +4,21 @@ import statsmodels.api as sm
 from statsmodels.stats.multicomp import MultiComparison
 from scipy.stats import t
 
-# Specify the path of the CSV file for "kiwo"
-kiwo_df = r"C:\Users\l.hapke\Desktop\python\Datensätze\kiwo.csv" #Replace with your actual file path
+pfad_1 = 'kiwo.csv'
+pfad_2 = 'umsatzdaten_gekuerzt.csv'
+pfad_3 = 'wetter.csv'
 
-# Read the CSV file
-kiwo_df = pd.read_csv(kiwo_df)
+daten_1 = pd.read_csv(pfad_1, usecols=['Datum', 'KielerWoche'])
+daten_2 = pd.read_csv(pfad_2, usecols=['Datum', 'Warengruppe', 'Umsatz'])
+daten_3 = pd.read_csv(pfad_3, usecols=['Datum', 'Temperatur', 'Windgeschwindigkeit', 'Bewoelkung', 'Windgeschwindigkeit', 'Wettercode'])
 
-# Print the first 5 rows of the DataFrame
-print(kiwo_df.head())
+#Zusammenführen der df
+# Datensätze zusammenführen mit Outer Join
+merged_df = pd.merge(daten_1, daten_2, how='outer', on='Datum')
+merged_df = pd.merge(merged_df, daten_3, how='outer', on='Datum')
 
-
-# Specify the path of the CSV file for "Umsatzdaten"
-umsaetze_df = r"C:\Users\l.hapke\Desktop\python\Datensätze\umsatzdaten_gekuerzt.csv" #Replace with your actual file path
-
-# Read the CSV file
-umsaetze_df = pd.read_csv(umsaetze_df)
-
-# Print the first 5 rows of the DataFrame
-print(umsaetze_df.head())
-
-# Specify the path of the CSV file for "Wetter"
-wetter_df = r"C:\Users\l.hapke\Desktop\python\Datensätze\wetter.csv" #Replace with your actual file path
-
-# Read the CSV file
-wetter_df = pd.read_csv(wetter_df)
+merged_df.shape
+print(merged_df)
 
 # Print the first 5 rows of the DataFrame
 print(wetter_df.head())
